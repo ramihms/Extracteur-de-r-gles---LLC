@@ -9,7 +9,6 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QTextOption
 
-# Importation de rdflib pour la conversion de formats RDF
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import XSD
 
@@ -156,26 +155,24 @@ class ComparaisonPage(QWidget):
 # Vue
 # <-------------------------->
 class RuleExtractionView(QMainWindow):
-    # La fenêtre principale (vue) avec un QStackedWidget pour basculer entre les différentes pages (ontologies, extraction de règles, etc.).
+    # La fenêtre principale et basculer entre les différentes pages (ontologies, extraction de règles, etc.).
 
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Application d'extraction de règles de LLC")
-        self.resize(2400, 800)
+        self.resize(1280, 720)
         
-        # Widget central pour QMainWindow
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         
-        # Layout principal (horizontal) : colonne de gauche + zone centrale
         main_layout = QHBoxLayout(central_widget)
         
         # <-------------------------->
-        # 1) Colonne de gauche
+        #  Colonne de gauche
         # <-------------------------->
         self.left_panel = QVBoxLayout()
         
-        # Groupe : Gestion des ontologies
+        # Gestion des ontologies
         group_ontologies = QGroupBox("Gestion des ontologies")
         ontologies_layout = QVBoxLayout()
         self.btn_charger_ontologie = QPushButton("Charger une ontologie")
@@ -184,7 +181,7 @@ class RuleExtractionView(QMainWindow):
         ontologies_layout.addWidget(self.btn_visualiser_ontologie)
         group_ontologies.setLayout(ontologies_layout)
         
-        # Groupe : Extraction et gestion des règles
+        # Extraction et gestion des règles
         group_regles = QGroupBox("Extraction et gestion des règles")
         regles_layout = QVBoxLayout()
         self.btn_extraire_regles = QPushButton("Extraire un ensemble de règles")
@@ -197,7 +194,7 @@ class RuleExtractionView(QMainWindow):
         regles_layout.addWidget(self.btn_sauvegarder_regles)
         group_regles.setLayout(regles_layout)
         
-        # Groupe : Qualité et validation des règles
+        # Qualité et validation des règles
         group_qualite = QGroupBox("Qualité et validation des règles")
         qualite_layout = QVBoxLayout()
         self.btn_mesurer_qualite_regle = QPushButton("Mesurer la qualité d'une règle")
@@ -208,7 +205,7 @@ class RuleExtractionView(QMainWindow):
         qualite_layout.addWidget(self.btn_valider_regle)
         group_qualite.setLayout(qualite_layout)
         
-        # Groupe : Analyse et interrogation des données
+        # Analyse et interrogation des données
         group_analyse = QGroupBox("Analyse et interrogation des données")
         analyse_layout = QVBoxLayout()
         self.btn_interroger_donnees = QPushButton("Interroger les données")
@@ -219,14 +216,14 @@ class RuleExtractionView(QMainWindow):
         analyse_layout.addWidget(self.btn_marquer_donnees)
         group_analyse.setLayout(analyse_layout)
         
-        # Groupe : Comparaison
+        # Comparaison
         group_comparaison = QGroupBox("Comparaison")
         comparaison_layout = QVBoxLayout()
         self.btn_comparer_resultats = QPushButton("Comparer des résultats d'extraction")
         comparaison_layout.addWidget(self.btn_comparer_resultats)
         group_comparaison.setLayout(comparaison_layout)
         
-        # Groupe : AMIE3
+        # AMIE3
         group_amie3 = QGroupBox("AMIE3")
         amie3_layout = QVBoxLayout()
         self.btn_lancer_amie3 = QPushButton("Lancer AMIE3")
@@ -249,12 +246,11 @@ class RuleExtractionView(QMainWindow):
         amie3_layout.addWidget(self.label_nc)
         amie3_layout.addWidget(self.lineedit_nc)
 
-        # Ajout d'un QCheckBox pour l'option -const
+        # Option -const
         self.checkbox_const = QCheckBox("Activer -const")
         amie3_layout.addWidget(self.checkbox_const)
         group_amie3.setLayout(amie3_layout)
         
-        # Empilement des groupes dans la colonne de gauche
         self.left_panel.addWidget(group_ontologies)
         self.left_panel.addWidget(group_regles)
         self.left_panel.addWidget(group_qualite)
@@ -264,7 +260,7 @@ class RuleExtractionView(QMainWindow):
         self.left_panel.addStretch()
         
         # <-------------------------->
-        # 2) Zone centrale
+        #  Zone centrale
         # <-------------------------->
         self.central_layout = QVBoxLayout()
         self.label_titre = QLabel("APPLICATION D’EXTRACTION DE RÈGLES DE LLC")
@@ -290,14 +286,14 @@ class RuleExtractionView(QMainWindow):
         tools_layout.addStretch()
         tools_layout.addWidget(self.lineedit_recherche)
         
-        # QStackedWidget : pages
+        # Pages
         self.stacked_widget = QStackedWidget()
-        self.page_accueil = AccueilPage()                # index 0
-        self.page_gestion_onto = GestionOntologiesPage()   # index 1
+        self.page_accueil = AccueilPage()                    # index 0
+        self.page_gestion_onto = GestionOntologiesPage()     # index 1
         self.page_extraction_regles = ExtractionReglesPage() # index 2
-        self.page_qualite = QualiteValidationPage()        # index 3
-        self.page_analyse = AnalyseDonneesPage()           # index 4
-        self.page_comparaison = ComparaisonPage()          # index 5
+        self.page_qualite = QualiteValidationPage()          # index 3
+        self.page_analyse = AnalyseDonneesPage()             # index 4
+        self.page_comparaison = ComparaisonPage()            # index 5
         
         self.stacked_widget.addWidget(self.page_accueil)
         self.stacked_widget.addWidget(self.page_gestion_onto)
@@ -415,7 +411,7 @@ class RuleExtractionController:
             else:
                 QMessageBox.warning(self.view, "Erreur", "Une erreur est survenue lors de la sauvegarde.")
 
-    # Fonctions de qualité et validation (simulées)
+    # Fonctions de qualité et validation (simulation)
     def do_mesurer_qualite_regle(self):
         self.view.page_qualite.text_edit.append("Mesure de qualité pour la règle sélectionnée :")
         self.view.page_qualite.text_edit.append("Support : 0.65, Confiance : 0.80")
@@ -439,21 +435,21 @@ class RuleExtractionController:
         # Définir le chemin pour le fichier TTL
         ttl_path = os.path.join(os.getcwd(), "ontology.ttl")
         
-        self.view.page_extraction_regles.text_edit.append(f"Conversion de l'ontologie {input_owl} en Turtle...")
+        self.view.page_extraction_regles.text_edit.append(f"Conversion de l'ontologie {input_owl} en Turtle...") # Faudra rajouter pour les fichiers nt et ttl sans conversion
         if not convert_owl_to_ttl(input_owl, ttl_path):
             self.view.page_extraction_regles.text_edit.append("La conversion de l'ontologie en TTL a échoué.")
             return
         
         
         # Récupérer les paramètres saisis par l'utilisateur
-        minc = self.view.lineedit_minc.text().strip()   # pour -minc
-        minpca = self.view.lineedit_minpca.text().strip() # pour -minpca
-        nc = self.view.lineedit_nc.text().strip()         # pour -nc
+        minc = self.view.lineedit_minc.text().strip()
+        minpca = self.view.lineedit_minpca.text().strip()
+        nc = self.view.lineedit_nc.text().strip()
 
-        # Déterminer le chemin du fichier amie3.jar (dans le même répertoire que ce script)
-        jar_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "amie3.jar")
+        # Chemin du fichier amie3.jar
+        jar_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "amie3.5.1.jar")
         if not os.path.exists(jar_path):
-            self.view.page_extraction_regles.text_edit.append("Fichier amie3.jar introuvable.")
+            self.view.page_extraction_regles.text_edit.append("Fichier amie3.5.1.jar introuvable.")
             return
         
         # Construire la commande
@@ -465,7 +461,6 @@ class RuleExtractionController:
             ttl_path
         ]
         
-        # Ajouter l'option -const si la case est cochée
         if self.view.checkbox_const.isChecked():
             command.insert(3, "-const")
 
@@ -488,7 +483,7 @@ class RuleExtractionController:
     def afficher_page(self, index):
         self.view.stacked_widget.setCurrentIndex(index)
     
-    # Fonctions de zoom
+    # Zoom
     def zoom_in(self):
         current_page = self.view.stacked_widget.currentWidget()
         if current_page:
